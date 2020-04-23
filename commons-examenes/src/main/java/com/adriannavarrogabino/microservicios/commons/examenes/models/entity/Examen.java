@@ -18,7 +18,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.springframework.data.annotation.Id;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -98,6 +97,23 @@ public class Examen implements Serializable {
 		this.preguntas.remove(pregunta);
 		pregunta.setExamen(null);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if(this == obj) {
+			return true;
+		}
+		
+		if(!(obj instanceof Examen)) {
+			return false;
+		}
+		
+		Examen a = (Examen) obj;
+		
+		return this.id != null && this.id.equals(a.getId());
+	}
+
 
 	/**
 	 * 
