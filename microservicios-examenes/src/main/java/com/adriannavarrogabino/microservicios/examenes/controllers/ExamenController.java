@@ -1,5 +1,6 @@
 package com.adriannavarrogabino.microservicios.examenes.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +17,22 @@ public class ExamenController extends CommonController<Examen, IExamenService> {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> editar(@RequestBody Examen examen, @PathVariable Long id) {
 		
-		return null;
+		Examen examenBd = service.findById(id);
+		
+		if(examenBd == null)
+		{
+			return ResponseEntity.notFound().build();
+		}
+		
+		
+		examenBd.setNombre(examen.getNombre());
+		
+		examenBd.getPreguntas().stream()
+			.filter(pdb -> examen.getPreguntas().contains(pdb))
+			.forEach(examenBd::removePregunta);
+		
+		examenBd.setPreguntas(examen.getPreguntas());
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(examenBd));
 	}
 }
