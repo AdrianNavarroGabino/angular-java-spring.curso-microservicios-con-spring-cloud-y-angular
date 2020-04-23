@@ -62,7 +62,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.adriannavarrogabino.microservicios.commons.alumnos</groupId>
-			<artifactId>common-alumnos</artifactId>
+			<artifactId>commons-alumnos</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.adriannavarrogabino.microservicios.commons.examenes</groupId>
+			<artifactId>commons-examenes</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

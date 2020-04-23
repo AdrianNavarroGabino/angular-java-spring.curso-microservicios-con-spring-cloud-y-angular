@@ -1,4 +1,4 @@
-package com.adriannavarrogabino.microservicios.examenes.models.entity;
+package com.adriannavarrogabino.microservicios.commons.examenes.models.entity;
 
 import java.io.Serializable;
 

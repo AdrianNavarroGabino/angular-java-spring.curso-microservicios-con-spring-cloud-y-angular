@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.adriannavarrogabino.microservicios.commons.controllers.CommonController;
-import com.adriannavarrogabino.microservicios.examenes.models.entity.Examen;
+import com.adriannavarrogabino.microservicios.commons.examenes.models.entity.Examen;
 import com.adriannavarrogabino.microservicios.examenes.models.services.IExamenService;
 
 @RestController
