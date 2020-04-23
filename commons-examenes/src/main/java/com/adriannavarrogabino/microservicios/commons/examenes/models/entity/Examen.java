@@ -17,6 +17,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -29,6 +31,7 @@ public class Examen implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotEmpty
 	private String nombre;
 
 	@Column(name = "create_at")
@@ -43,6 +46,7 @@ public class Examen implements Serializable {
 	private List<Pregunta> preguntas;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@NotNull
 	private Asignatura asignatura;
 
 	@PrePersist

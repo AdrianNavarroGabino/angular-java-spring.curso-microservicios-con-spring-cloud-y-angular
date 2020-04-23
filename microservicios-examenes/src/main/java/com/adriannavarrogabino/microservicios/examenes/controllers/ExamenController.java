@@ -1,7 +1,10 @@
 package com.adriannavarrogabino.microservicios.examenes.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,7 +19,11 @@ import com.adriannavarrogabino.microservicios.examenes.models.services.IExamenSe
 public class ExamenController extends CommonController<Examen, IExamenService> {
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> editar(@RequestBody Examen examen, @PathVariable Long id) {
+	public ResponseEntity<?> editar(@Valid @RequestBody Examen examen, BindingResult result, @PathVariable Long id) {
+		
+		if(result.hasErrors()) {
+			return validar(result);
+		}
 		
 		Examen examenBd = service.findById(id);
 		
