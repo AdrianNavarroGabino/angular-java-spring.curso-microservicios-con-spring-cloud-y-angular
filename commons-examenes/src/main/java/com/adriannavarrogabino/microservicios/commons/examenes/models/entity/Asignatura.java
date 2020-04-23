@@ -1,6 +1,7 @@
 package com.adriannavarrogabino.microservicios.commons.examenes.models.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,6 +34,11 @@ public class Asignatura implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "padre", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties(value = {"padre"}, allowSetters = true)
 	private List<Asignatura> hijos;
+	
+	public Asignatura() {
+
+		this.hijos = new ArrayList<Asignatura>();
+	}
 
 	public Long getId() {
 		return id;
@@ -49,8 +55,6 @@ public class Asignatura implements Serializable {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	
 	
 	public Asignatura getPadre() {
 		return padre;
