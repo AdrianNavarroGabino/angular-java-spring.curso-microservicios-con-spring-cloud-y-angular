@@ -1,6 +1,5 @@
 package com.adriannavarrogabino.microservicios.cursos.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.adriannavarrogabino.microservicios.commons.controllers.CommonController;
 import com.adriannavarrogabino.microservicios.cursos.models.entity.Curso;
-import com.adriannavarrogabino.microservicios.cursos.models.repository.ICursoRepository;
 import com.adriannavarrogabino.microservicios.cursos.models.services.ICursoService;
 
 @RestController
