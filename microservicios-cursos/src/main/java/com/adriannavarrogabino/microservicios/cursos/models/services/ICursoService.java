@@ -5,4 +5,5 @@ import com.adriannavarrogabino.microservicios.cursos.models.entity.Curso;
 
 public interface ICursoService extends ICommonService<Curso> {
 
+	public Curso findCursoByAlumnoId(Long id);
 }
