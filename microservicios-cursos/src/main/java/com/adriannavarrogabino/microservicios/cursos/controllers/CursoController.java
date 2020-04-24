@@ -1,10 +1,13 @@
 package com.adriannavarrogabino.microservicios.cursos.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -23,6 +26,18 @@ import com.adriannavarrogabino.microservicios.cursos.models.services.ICursoServi
 @RestController
 public class CursoController extends CommonController<Curso, ICursoService> {
 	
+	@Value("${config.balanceador.test}")
+	private String balanceadorTest;
+	
+	@GetMapping("/balanceador-test")
+	public ResponseEntity<?> balanceadorTest() {
+		
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("balanceadorTest", balanceadorTest);
+		response.put("cursos", service.findAll());
+		return ResponseEntity.ok(response);
+	}
+
 	@PutMapping("/{id}")
 	public ResponseEntity<?> editar(@Valid @RequestBody Curso curso, BindingResult result, @PathVariable Long id) {
 		
