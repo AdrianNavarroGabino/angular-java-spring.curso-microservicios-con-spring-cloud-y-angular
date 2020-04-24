@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,10 +18,12 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 
 import com.adriannavarrogabino.microservicios.commons.alumnos.models.entity.Alumno;
 import com.adriannavarrogabino.microservicios.commons.examenes.models.entity.Examen;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "cursos")
@@ -36,8 +39,13 @@ public class Curso implements Serializable {
 	@Column(name = "create_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createAt;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnoreProperties(value = {"curso"}, allowSetters = true)
+	private List<CursoAlumno> cursoAlumnos;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	//@OneToMany(fetch = FetchType.LAZY)
+	@Transient
 	List<Alumno> alumnos;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -52,6 +60,7 @@ public class Curso implements Serializable {
 
 		this.alumnos = new ArrayList<>();
 		this.examenes = new ArrayList<>();
+		this.cursoAlumnos = new ArrayList<CursoAlumno>();
 	}
 
 	public Long getId() {
@@ -108,6 +117,22 @@ public class Curso implements Serializable {
 	
 	public void removeExamen(Examen examen) {
 		this.examenes.remove(examen);
+	}
+
+	public List<CursoAlumno> getCursoAlumnos() {
+		return cursoAlumnos;
+	}
+
+	public void setCursoAlumnos(List<CursoAlumno> cursoAlumnos) {
+		this.cursoAlumnos = cursoAlumnos;
+	}
+
+	public void addCursoAlumno(CursoAlumno cursoAlumno) {
+		this.cursoAlumnos.add(cursoAlumno);
+	}
+	
+	public void removeCursoAlumno(CursoAlumno cursoAlumno) {
+		this.cursoAlumnos.remove(cursoAlumno);
 	}
 
 	/**
