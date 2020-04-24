@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import javax.validation.Valid;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +26,24 @@ import com.adriannavarrogabino.microservicios.usuarios.models.services.IAlumnoSe
 @RestController
 public class AlumnoController extends CommonController<Alumno, IAlumnoService> {
 	
+	@GetMapping("/uploads/img/{id}")
+	public ResponseEntity<?> verFoto(@PathVariable Long id) {
+		
+		Alumno alumnoDb = service.findById(id);
+		
+		if(alumnoDb == null || alumnoDb.getFoto() == null)
+		{
+			return ResponseEntity.notFound().build();
+		}
+		
+		Resource imagen = new ByteArrayResource(alumnoDb.getFoto());
+		
+		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imagen);
+	}
+	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> editar(@Valid @RequestBody Alumno alumno, BindingResult result, @PathVariable Long id)
+	public ResponseEntity<?> editar(@Valid @RequestBody Alumno alumno,
+			BindingResult result, @PathVariable Long id)
 	{
 		if(result.hasErrors()) {
 			return validar(result);
