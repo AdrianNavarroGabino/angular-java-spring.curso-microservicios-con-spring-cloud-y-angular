@@ -1,6 +1,7 @@
 package com.adriannavarrogabino.microservicios.cursos.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -74,6 +75,20 @@ public class CursoController extends CommonController<Curso, ICursoService> {
 	public ResponseEntity<?> buscarAlumnoId(@PathVariable Long id) {
 		
 		Curso curso = service.findCursoByAlumnoId(id);
+		
+		if(curso != null) {
+			
+			List<Long> examenesId = (List<Long>) service.obtenerExamenesIdsConRespuestasAlumno(id);
+			
+			List<Examen> examenes = curso.getExamenes().stream().map(examen -> {
+				if(examenesId.contains(examen.getId())) {
+					examen.setRespondido(true);
+				}
+				return examen;
+			}).collect(Collectors.toList());
+			
+			curso.setExamenes(examenes);
+		}
 		return ResponseEntity.ok().body(curso);
 	}
 	
