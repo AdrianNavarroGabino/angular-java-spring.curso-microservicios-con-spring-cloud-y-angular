@@ -73,7 +73,8 @@ public class CursoController extends CommonController<Curso, ICursoService> {
 	@GetMapping("/alumno/{id}")
 	public ResponseEntity<?> buscarAlumnoId(@PathVariable Long id) {
 		
-		return ResponseEntity.ok().body(service.findCursoByAlumnoId(id));
+		Curso curso = service.findCursoByAlumnoId(id);
+		return ResponseEntity.ok().body(curso);
 	}
 	
 	@PutMapping("/{id}/asignar-examenes")

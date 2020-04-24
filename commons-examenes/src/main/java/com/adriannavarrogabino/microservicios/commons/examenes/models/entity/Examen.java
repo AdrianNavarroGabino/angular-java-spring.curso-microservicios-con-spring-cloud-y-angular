@@ -17,6 +17,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -44,10 +45,13 @@ public class Examen implements Serializable {
 	@OneToMany(mappedBy = "examen", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties(value = { "examen" }, allowSetters = true)
 	private List<Pregunta> preguntas;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@NotNull
 	private Asignatura asignatura;
+
+	@Transient
+	private boolean respondido;
 
 	@PrePersist
 	public void prepersist() {
@@ -58,8 +62,6 @@ public class Examen implements Serializable {
 
 		this.preguntas = new ArrayList<Pregunta>();
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -93,12 +95,12 @@ public class Examen implements Serializable {
 		this.preguntas.clear();
 		preguntas.forEach(this::addPregunta);
 	}
-	
+
 	public void addPregunta(Pregunta pregunta) {
 		this.preguntas.add(pregunta);
 		pregunta.setExamen(this);
 	}
-	
+
 	public void removePregunta(Pregunta pregunta) {
 		this.preguntas.remove(pregunta);
 		pregunta.setExamen(null);
@@ -112,22 +114,29 @@ public class Examen implements Serializable {
 		this.asignatura = asignatura;
 	}
 
+	public boolean isRespondido() {
+		return respondido;
+	}
+
+	public void setRespondido(boolean respondido) {
+		this.respondido = respondido;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 
-		if(this == obj) {
+		if (this == obj) {
 			return true;
 		}
-		
-		if(!(obj instanceof Examen)) {
+
+		if (!(obj instanceof Examen)) {
 			return false;
 		}
-		
+
 		Examen a = (Examen) obj;
-		
+
 		return this.id != null && this.id.equals(a.getId());
 	}
-
 
 	/**
 	 * 
