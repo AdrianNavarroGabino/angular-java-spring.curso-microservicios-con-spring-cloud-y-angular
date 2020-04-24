@@ -14,10 +14,17 @@ public class RespuestaServiceImpl implements IRespuestaService {
 	private IRespuestaRepository repository;
 	
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional
 	public Iterable<Respuesta> saveAll(Iterable<Respuesta> respuestas) {
 		
 		return repository.saveAll(respuestas);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Iterable<Respuesta> findRespuestaByAlumnoByExamen(Long alumnoId, Long examenID) {
+		
+		return repository.findRespuestaByAlumnoByExamen(alumnoId, examenID);
 	}
 
 }
