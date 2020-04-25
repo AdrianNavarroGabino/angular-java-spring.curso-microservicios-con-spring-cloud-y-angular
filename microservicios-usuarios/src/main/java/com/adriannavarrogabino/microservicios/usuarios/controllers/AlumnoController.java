@@ -1,6 +1,7 @@
 package com.adriannavarrogabino.microservicios.usuarios.controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -25,6 +26,12 @@ import com.adriannavarrogabino.microservicios.usuarios.models.services.IAlumnoSe
 
 @RestController
 public class AlumnoController extends CommonController<Alumno, IAlumnoService> {
+	
+	@GetMapping("/alumnos-por-curso")
+	public ResponseEntity<?> obtenerAlumnosPorCurso(@RequestParam List<Long> ids) {
+		
+		return ResponseEntity.ok(service.findAllById(ids));
+	}
 	
 	@GetMapping("/uploads/img/{id}")
 	public ResponseEntity<?> verFoto(@PathVariable Long id) {

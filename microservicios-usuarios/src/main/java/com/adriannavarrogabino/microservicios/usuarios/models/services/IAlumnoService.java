@@ -8,4 +8,6 @@ import com.adriannavarrogabino.microservicios.commons.services.ICommonService;
 public interface IAlumnoService extends ICommonService<Alumno> {
 	
 	public List<Alumno> findByNombreOApellido(String term);
+	
+	public Iterable<Alumno> findAllById(Iterable<Long> ids);
 }
