@@ -46,6 +46,29 @@ public class CursoController extends CommonController<Curso, ICursoService> {
 		return ResponseEntity.ok().body(cursos);
 	}
 	
+	@GetMapping("/{id}")
+	@Override
+	public ResponseEntity<?> ver(@PathVariable Long id)
+	{
+		Curso curso = service.findById(id);
+		
+		if(curso == null)
+		{
+			return ResponseEntity.notFound().build();
+		}
+		
+		if(!curso.getCursoAlumnos().isEmpty()) {
+			List<Long> ids = curso.getCursoAlumnos().stream()
+					.map(ca -> ca.getAlumnoId()).collect(Collectors.toList());
+			
+			List<Alumno> alumnos = (List<Alumno>) service.obtenerAlumnosPorCurso(ids);
+			
+			curso.setAlumnos(alumnos);
+		}
+		
+		return ResponseEntity.ok().body(curso);
+	}
+	
 	@GetMapping("/balanceador-test")
 	public ResponseEntity<?> balanceadorTest() {
 		
