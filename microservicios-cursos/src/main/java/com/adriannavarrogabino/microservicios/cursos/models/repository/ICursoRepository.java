@@ -7,7 +7,7 @@ import com.adriannavarrogabino.microservicios.cursos.models.entity.Curso;
 
 public interface ICursoRepository extends PagingAndSortingRepository<Curso, Long> {
 	
-	@Query("select c from Curso c join fetch c.alumnos a where a.id = ?1")
+	@Query("select c from Curso c join fetch c.cursoAlumnos a where a.alumnoId = ?1")
 	public Curso findCursoByAlumnoId(Long id);
 
 }

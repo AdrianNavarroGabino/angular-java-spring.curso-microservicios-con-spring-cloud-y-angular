@@ -21,6 +21,7 @@ import com.adriannavarrogabino.microservicios.commons.alumnos.models.entity.Alum
 import com.adriannavarrogabino.microservicios.commons.controllers.CommonController;
 import com.adriannavarrogabino.microservicios.commons.examenes.models.entity.Examen;
 import com.adriannavarrogabino.microservicios.cursos.models.entity.Curso;
+import com.adriannavarrogabino.microservicios.cursos.models.entity.CursoAlumno;
 import com.adriannavarrogabino.microservicios.cursos.models.services.ICursoService;
 
 @RestController
@@ -66,7 +67,11 @@ public class CursoController extends CommonController<Curso, ICursoService> {
 		}
 		
 		alumnos.forEach(a -> {
-			cursoDb.addAlumno(a);
+			
+			CursoAlumno cursoAlumno = new CursoAlumno();
+			cursoAlumno.setAlumnoId(a.getId());
+			cursoAlumno.setCurso(cursoDb);
+			cursoDb.addCursoAlumno(cursoAlumno);
 		});
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(cursoDb));
@@ -81,7 +86,9 @@ public class CursoController extends CommonController<Curso, ICursoService> {
 			return ResponseEntity.notFound().build();
 		}
 		
-		cursoDb.removeAlumno(alumno);
+		CursoAlumno cursoAlumno = new CursoAlumno();
+		cursoAlumno.setAlumnoId(alumno.getId());
+		cursoDb.removeCursoAlumno(cursoAlumno);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(cursoDb));
 	}
