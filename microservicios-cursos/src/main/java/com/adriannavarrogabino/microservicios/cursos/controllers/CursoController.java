@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class CursoController extends CommonController<Curso, ICursoService> {
 	
 	@GetMapping("/pagina")
 	@Override
-	public ResponseEntity<?> listar(Pageable pageable)
+	public ResponseEntity<?> listar()
 	{
 		List<Curso> cursos = service.findAll().stream().map(c -> {
 			c.getCursoAlumnos().forEach(ca -> {
@@ -43,6 +44,22 @@ public class CursoController extends CommonController<Curso, ICursoService> {
 			});
 			return c;
 		}).collect(Collectors.toList());
+		return ResponseEntity.ok().body(cursos);
+	}
+	
+	@GetMapping("/pagina")
+	@Override
+	public ResponseEntity<?> listar(Pageable pageable)
+	{
+		Page<Curso> cursos = service.findAll(pageable).map(curso -> {
+			curso.getCursoAlumnos().forEach(ca -> {
+				Alumno alumno = new Alumno();
+				alumno.setId(ca.getAlumnoId());
+				curso.addAlumno(alumno);
+			});
+			return curso;
+		});
+		
 		return ResponseEntity.ok().body(cursos);
 	}
 	
